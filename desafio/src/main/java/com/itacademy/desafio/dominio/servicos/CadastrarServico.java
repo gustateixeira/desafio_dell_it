@@ -15,5 +15,4 @@ public class CadastrarServico {
     public StartupModel cadastrarStartup(StartupModel st){
         return this.startupRepositorio.add(st);
     }
-
 }

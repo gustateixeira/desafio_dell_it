@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 public class StartupModel {
-    private final long id;
+    private long id;
     private final String nome;
     private final String slogan;
     private final int fundacao;
@@ -20,5 +20,11 @@ public class StartupModel {
         this.slogan = slogan;
         this.fundacao = fundacao;
         this.pontuacao = pontuacao;
+    }
+    public StartupModel(String nome, String slogan, int fundacao){
+        this.nome = nome;
+        this.slogan = slogan;
+        this.fundacao = fundacao;
+        this.pontuacao = 70;
     }
 }

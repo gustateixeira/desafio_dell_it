@@ -1,10 +1,7 @@
 package com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades;
 
 import com.itacademy.desafio.dominio.modelos.StartupModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +15,7 @@ public class Startup {
     private String nome;
     private String slogan;
     private int fundacao;
+    @Column(columnDefinition = "INTEGER DEFAULT 70")
     private @Setter int pontuacao;
 
     public Startup(long id, String nome, String slogan, int fundacao, int pontuacao){
@@ -36,6 +34,7 @@ public class Startup {
         this.fundacao = fundacao;
         this.pontuacao = pontuacao;
     }
+
 
     public static Startup fromStartupModel(StartupModel st){
         return new Startup(st.getId(), st.getNome(), st.getSlogan(), st.getFundacao(), st.getPontuacao());

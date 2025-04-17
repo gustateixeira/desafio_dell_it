@@ -16,7 +16,7 @@ public class CriarStartupUC {
     }
 
     public StartupDto run(StartupDto st ){
-        cadastrarServico.cadastrarStartup(new StartupModel(st.getId(), st.getNome(), st.getSlogan(), st.getFundacao()));
+        cadastrarServico.cadastrarStartup(new StartupModel(st.getNome(), st.getSlogan(), st.getFundacao()));
         return st;
     }
 }
