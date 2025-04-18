@@ -1,11 +1,9 @@
 package com.itacademy.desafio.dominio.modelos;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@ToString
 @Getter
 public class StartupModel {
     private long id;
