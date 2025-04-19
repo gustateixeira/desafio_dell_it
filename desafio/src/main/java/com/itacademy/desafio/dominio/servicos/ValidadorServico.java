@@ -1,9 +1,7 @@
 package com.itacademy.desafio.dominio.servicos;
 
 
-import java.util.List;
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
-import com.itacademy.desafio.dominio.modelos.StartupModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +17,7 @@ public class ValidadorServico {
         if(tam % 2 != 0){
             return false;
         }
-        return tam >= 2 && tam <= 8;
+        return tam >= 4 && tam <= 8;
     }
 
 }

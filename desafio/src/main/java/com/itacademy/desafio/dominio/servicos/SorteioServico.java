@@ -2,6 +2,7 @@ package com.itacademy.desafio.dominio.servicos;
 
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
+import org.hibernate.sql.ast.tree.expression.Star;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,11 +24,23 @@ public class SorteioServico{
     public Map<StartupModel, StartupModel> sortear(){
         Map<StartupModel, StartupModel> sorteio = new HashMap<>();
         List<StartupModel> startups = this.startupRepositorio.buscarTodos();
-        Collections.shuffle(startups);
+        List<StartupModel> opcoes = new ArrayList<>(List.copyOf(startups));
 
-        for(int i = 0; i < startups.size()-1; i++){
-            sorteio.put(startups.get(i), startups.get(i+1));
+        while(opcoes.size() > 2) {
+            int index = random.nextInt(opcoes.size() - 1);
+            StartupModel key = opcoes.get(index);
+            opcoes.remove(index);
+            int secIndex = random.nextInt(opcoes.size() - 1);
+            StartupModel value = opcoes.get(secIndex);
+            opcoes.remove(secIndex);
+            sorteio.put(key, value);
         }
+        
+        StartupModel key = opcoes.getFirst();
+        StartupModel value = opcoes.getLast();
+        sorteio.put(key,value);
+
+        System.out.println("Sorteio: " + sorteio.toString());
 
         return sorteio;
     }
