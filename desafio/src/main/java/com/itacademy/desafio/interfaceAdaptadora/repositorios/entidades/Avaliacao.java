@@ -51,4 +51,8 @@ public class Avaliacao {
                 av.getFakeNews());
     }
 
+    public int[] getAtributos(){
+        return new int[]{pitch * 6, bugs * -4, usuarios * 3, investidorIrritado * -6, fakeNews * -8};
+    }
+
 }

@@ -9,5 +9,5 @@ public interface IStartupRepositorio {
     public StartupModel add(StartupModel st);
     public List<StartupModel> buscarTodos();
     public StartupModel buscarPorId(long id);
-    public StartupModel atualizarPontos(long id, int novosPontos);
+    public StartupModel atualizarPontos(long id);
 }

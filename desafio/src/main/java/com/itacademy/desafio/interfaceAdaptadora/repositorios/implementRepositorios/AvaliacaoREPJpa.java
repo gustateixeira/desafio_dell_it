@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
-    private AvaliacaoRepositorio avaliacaoRepositorio;
+    private final AvaliacaoRepositorio avaliacaoRepositorio;
 
     public AvaliacaoREPJpa(AvaliacaoRepositorio av){
         this.avaliacaoRepositorio = av;

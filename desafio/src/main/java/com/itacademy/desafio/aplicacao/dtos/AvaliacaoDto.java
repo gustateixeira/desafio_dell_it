@@ -3,10 +3,12 @@ package com.itacademy.desafio.aplicacao.dtos;
 
 import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
 @AllArgsConstructor
 @ToString
+@Getter
 public class AvaliacaoDto {
     private long id;
     private int pitch;

@@ -3,7 +3,6 @@ package com.itacademy.desafio.aplicacao.dtos;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor

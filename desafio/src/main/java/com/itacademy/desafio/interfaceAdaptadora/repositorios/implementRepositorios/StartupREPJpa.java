@@ -5,19 +5,22 @@ import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Avaliacao;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Startup;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.interfacesJpa.StartupRepositorio;
+import org.hibernate.sql.ast.tree.expression.Star;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
 @Primary
 public class StartupREPJpa implements IStartupRepositorio {
     private final StartupRepositorio startupRepositorio;
-
+    private static long id;
 
     public StartupREPJpa(StartupRepositorio startupRepositorio) {
         this.startupRepositorio = startupRepositorio;
+        id = 0;
     }
 
     public List<StartupModel> buscarTodos(){
@@ -32,17 +35,18 @@ public class StartupREPJpa implements IStartupRepositorio {
 
     public StartupModel add(StartupModel st){
         Startup s = Startup.fromStartupModel(st);
-        startupRepositorio.save(s);
-        return st;
+        return Startup.toStartupModel(startupRepositorio.save(s));
     }
 
     public StartupModel buscarPorId(long id){
         return Startup.toStartupModel(startupRepositorio.findById(id));
     }
 
-    public StartupModel atualizarPontos(long id, int novosPontos){
+    public StartupModel atualizarPontos(long id){
         Startup st = this.startupRepositorio.findById(id);
-        st.setPontuacao(novosPontos);
+        int [] av = st.getAv().getAtributos();
+        int pontos = st.getPontuacao() + Arrays.stream(av).sum();
+        st.setPontuacao(pontos);
         this.startupRepositorio.save(st);
         return Startup.toStartupModel(st);
     }
