@@ -1,25 +1,32 @@
 package com.itacademy.desafio.aplicacao.casosDeUso;
 
 
-import com.itacademy.desafio.aplicacao.dtos.AvaliacaoDto;
+import com.itacademy.desafio.aplicacao.dtos.BatalhaDto;
 import com.itacademy.desafio.aplicacao.dtos.StartupDto;
-import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
-import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.dominio.servicos.AtualizarServico;
 import com.itacademy.desafio.dominio.servicos.SelecionarBatalhaServico;
-import lombok.AllArgsConstructor;
+import com.itacademy.desafio.dominio.servicos.StartupServico;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 @Component
-@AllArgsConstructor
 public class BatalharUC {
     private final AtualizarServico atualizarServico;
-    private final SelecionarBatalhaServico selecionarBatalhaServico;
 
 
-    public StartupDto run(long id, AvaliacaoDto av){
-        StartupModel st = this.selecionarBatalhaServico.selecionarBatalha(id);
-        this.atualizarServico.atualizarAvaliacao(id, new AvaliacaoModel(av.getId(), av.getPitch(), av.getBugs(), av.getUsuarios(), av.getInvestidorIrritado(), av.getFakeNews()));
-        return StartupDto.fromModel(this.atualizarServico.atualizarPontos(id));
+    public BatalharUC(AtualizarServico atualizarServico, StartupServico startupServico, Random r) {
+        this.atualizarServico = atualizarServico;
+
     }
+    public BatalhaDto run(String campo, BatalhaDto batalhaDto,  int vl1, int vl2){
+        this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt1Id(), vl1, campo);
+        this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt2Id(), vl2, campo);
+        return batalhaDto;
+    }
+
 }
+

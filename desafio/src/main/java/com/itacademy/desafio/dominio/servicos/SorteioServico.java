@@ -1,8 +1,9 @@
 package com.itacademy.desafio.dominio.servicos;
 
+import com.itacademy.desafio.dominio.interfaceRepositorios.IBatalhaRepositorio;
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
-import org.hibernate.sql.ast.tree.expression.Star;
+import com.itacademy.desafio.dominio.modelos.BatalhaModel;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,34 +16,30 @@ public class SorteioServico{
     * */
     private final Random random;
     private final IStartupRepositorio startupRepositorio;
+    private final IBatalhaRepositorio batalhaRepositorio;
 
-    public SorteioServico(Random r ,IStartupRepositorio startupRepositorio){
+    public SorteioServico(Random r , IStartupRepositorio startupRepositorio, IBatalhaRepositorio batalhaRepositorio1){
         this.random = r;
         this.startupRepositorio = startupRepositorio;
+        this.batalhaRepositorio = batalhaRepositorio1;
     }
 
-    public Map<StartupModel, StartupModel> sortear(){
-        Map<StartupModel, StartupModel> sorteio = new HashMap<>();
-        List<StartupModel> startups = this.startupRepositorio.buscarTodos();
-        List<StartupModel> opcoes = new ArrayList<>(List.copyOf(startups));
+    public List<BatalhaModel> sortear(){
+        List<StartupModel> startups = new ArrayList<>(this.startupRepositorio.buscarTodos());
+        List<BatalhaModel> batalhas = new ArrayList<>();
 
-        while(opcoes.size() > 2) {
-            int index = random.nextInt(opcoes.size() - 1);
-            StartupModel key = opcoes.get(index);
-            opcoes.remove(index);
-            int secIndex = random.nextInt(opcoes.size() - 1);
-            StartupModel value = opcoes.get(secIndex);
-            opcoes.remove(secIndex);
-            sorteio.put(key, value);
+
+        Collections.shuffle(startups, this.random);
+
+        for (int i = 0; i < startups.size() - 1; i += 2) {
+            StartupModel st1 = startups.get(i);
+            StartupModel st2 = startups.get(i + 1);
+            BatalhaModel batalha = new BatalhaModel(st1, st2);
+            batalhas.add(batalha);
+            batalhaRepositorio.add(batalha);
         }
-        
-        StartupModel key = opcoes.getFirst();
-        StartupModel value = opcoes.getLast();
-        sorteio.put(key,value);
 
-        System.out.println("Sorteio: " + sorteio.toString());
-
-        return sorteio;
+        return batalhas;
     }
 
 }

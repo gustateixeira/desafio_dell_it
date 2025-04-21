@@ -42,11 +42,11 @@ public class StartupREPJpa implements IStartupRepositorio {
         return Startup.toStartupModel(startupRepositorio.findById(id));
     }
 
-    public StartupModel atualizarPontos(long id){
+    public StartupModel atualizarPontos(long id, int pts){
         Startup st = this.startupRepositorio.findById(id);
         int [] av = st.getAv().getAtributos();
-        int pontos = st.getPontuacao() + Arrays.stream(av).sum();
-        st.setPontuacao(pontos);
+        int pontos = 70 + Arrays.stream(av).sum(); //PONTUAÇÃO INICIAL + PONTUACAO ATRIBUIDA
+        st.setPontuacao(pontos + pts);
         this.startupRepositorio.save(st);
         return Startup.toStartupModel(st);
     }

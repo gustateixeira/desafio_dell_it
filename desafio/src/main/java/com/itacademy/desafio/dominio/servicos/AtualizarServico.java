@@ -17,12 +17,17 @@ public class AtualizarServico {
     }
 
     public StartupModel atualizarPontos(long id){
-        return this.startupRepositorio.atualizarPontos(id);
+        return this.startupRepositorio.atualizarPontos(id,0);
     }
 
-    public AvaliacaoModel atualizarAvaliacao(long id, AvaliacaoModel av){
+    public void atualizarPontos(long id, int pontos){
+        this.startupRepositorio.atualizarPontos(id,pontos);
+    }
+
+    public AvaliacaoModel atualizarAvaliacao(long id, int valor, String campo){
         StartupModel st = this.startupRepositorio.buscarPorId(id);
-        this.avaliacaoRepositorio.atualizarAvaliacao(st.getAv().getId(), av.getPitch(), av.getBugs(), av.getUsuarios(), av.getInvestidorIrritado(), av.getFakeNews());
+        AvaliacaoModel av = this.avaliacaoRepositorio.atualizarAvaliacao(st.getAv().getId(), valor, campo);
+        atualizarPontos(id);
         return av;
     }
 

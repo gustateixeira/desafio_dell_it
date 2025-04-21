@@ -20,13 +20,26 @@ public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
         return av;
     }
 
-    public AvaliacaoModel atualizarAvaliacao(long id, int pitch, int bugs, int usuarios, int investidorIrritado, int fakeNews){
+    public AvaliacaoModel atualizarAvaliacao(long id, int valor, String campo){
         Avaliacao av = avaliacaoRepositorio.findById(id);
-        av.setPitch(pitch);
-        av.setBugs(bugs);
-        av.setUsuarios(usuarios);
-        av.setInvestidorIrritado(investidorIrritado);
-        av.setFakeNews(fakeNews);
+        switch (campo.toLowerCase()) {
+            case "pitch":
+                av.setPitch(valor);
+                break;
+            case "bugs":
+                av.setBugs(valor);
+                break;
+            case "usuarios":
+                av.setUsuarios(valor);
+                break;
+            case "investidorirritado":
+                av.setInvestidorIrritado(valor);
+                break;
+            case "fakenews":
+                av.setFakeNews(valor);
+                break;
+        }
+
         avaliacaoRepositorio.save(av);
         return Avaliacao.toAvaliacaoModel(av);
     }

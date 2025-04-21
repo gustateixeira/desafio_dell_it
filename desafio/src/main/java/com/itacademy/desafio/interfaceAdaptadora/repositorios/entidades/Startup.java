@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @AllArgsConstructor
-
 public class Startup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
