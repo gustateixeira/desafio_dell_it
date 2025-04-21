@@ -11,6 +11,7 @@ import java.util.Arrays;
 public class ExceptionController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
-        return new ResponseEntity<>("Aconteceu um erro:" + Arrays.toString(e.getStackTrace()), HttpStatus.INTERNAL_SERVER_ERROR);
+        System.out.println(Arrays.toString(e.getStackTrace()));
+        return new ResponseEntity<>("Aconteceu um erro:" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

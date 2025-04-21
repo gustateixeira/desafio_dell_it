@@ -28,5 +28,10 @@ public class BatalhaREPJpa implements IBatalhaRepositorio {
     public BatalhaModel buscarPorId(long id){
         return Batalha.toBatalhaModel(this.batalhasRepositorio.findById(id));
     }
+    public BatalhaModel atualizar(BatalhaModel bt){
+        Batalha batalha = Batalha.fromBatalhaModel(bt);
+        this.batalhasRepositorio.save(batalha);
+        return Batalha.toBatalhaModel(batalha);
+    }
 
 }

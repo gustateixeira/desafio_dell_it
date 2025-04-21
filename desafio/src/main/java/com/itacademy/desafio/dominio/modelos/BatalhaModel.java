@@ -11,11 +11,13 @@ public class BatalhaModel {
     private StartupModel st1;
     private StartupModel st2;
     private @Setter StartupModel vencedor;
+    private @Setter boolean finalizada;
 
-    public BatalhaModel(long id, StartupModel st1, StartupModel st2){
+    public BatalhaModel(long id, StartupModel st1, StartupModel st2, boolean finalizada){
         this.id = id;
         this.st1 = st1;
         this.st2 = st2;
+        this.finalizada = finalizada;
     }
     public BatalhaModel(StartupModel st1, StartupModel st2){
         this.st1 = st1;

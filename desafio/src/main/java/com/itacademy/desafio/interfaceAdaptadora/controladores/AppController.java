@@ -1,10 +1,7 @@
 package com.itacademy.desafio.interfaceAdaptadora.controladores;
 
 
-import com.itacademy.desafio.aplicacao.casosDeUso.BatalharUC;
-import com.itacademy.desafio.aplicacao.casosDeUso.CriarStartupUC;
-import com.itacademy.desafio.aplicacao.casosDeUso.SelecionarBatalhaUC;
-import com.itacademy.desafio.aplicacao.casosDeUso.SortearBatalhasUC;
+import com.itacademy.desafio.aplicacao.casosDeUso.*;
 import com.itacademy.desafio.aplicacao.dtos.BatalhaDto;
 import com.itacademy.desafio.aplicacao.dtos.StartupDto;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +14,15 @@ public class AppController {
     private final SortearBatalhasUC sortearBatalhasUC;
     private final SelecionarBatalhaUC selecionarBatalhaUC;
     private final BatalharUC batalharUC;
+    private final DefinirGanhadorUC definirGanhadorUC;
 
 
-    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC){
+    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC){
         this.criarStartupUC = criarStartupUC;
         this.sortearBatalhasUC = sortearBatalhaUC;
         this.selecionarBatalhaUC = selecionarBatalhaUC;
         this.batalharUC = batalharUC;
+        this.definirGanhadorUC = definirGanhadorUC;
     }
     @CrossOrigin(origins="*")
     @GetMapping("")
@@ -62,6 +61,12 @@ public class AppController {
     @GetMapping("/sorteio/rodada/{campo}")
     public String batalhar(@PathVariable String campo, @RequestParam int vl1, @RequestParam int vl2){
         return this.batalharUC.run(campo, this.selecionarBatalhaUC.getBatalhaEscolhidaId(), vl1, vl2).toString();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/sorteio/rodada/ganhador")
+    public String ganhador(){
+        return this.definirGanhadorUC.run(this.selecionarBatalhaUC.getBatalhaEscolhidaId().getId()).toString();
     }
 
 }

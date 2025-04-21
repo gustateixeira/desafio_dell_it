@@ -5,6 +5,7 @@ import com.itacademy.desafio.dominio.modelos.StartupModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
@@ -23,14 +24,16 @@ public class Batalha {
     @JoinColumn(name = "id_startup2")
     private Startup st2;
 
+    private @Setter boolean finalizada;
+
     protected Batalha(){}
 
     public static Batalha fromBatalhaModel(BatalhaModel batalhaModel){
-        return new Batalha(batalhaModel.getId(), Startup.fromStartupModel(batalhaModel.getSt1()), Startup.fromStartupModel(batalhaModel.getSt2()));
+        return new Batalha(batalhaModel.getId(), Startup.fromStartupModel(batalhaModel.getSt1()), Startup.fromStartupModel(batalhaModel.getSt2()), batalhaModel.isFinalizada());
     }
 
     public static BatalhaModel toBatalhaModel(Batalha batalha){
-        return new BatalhaModel(batalha.getId(), Startup.toStartupModel(batalha.getSt1()), Startup.toStartupModel(batalha.getSt2()));
+        return new BatalhaModel(batalha.getId(), Startup.toStartupModel(batalha.getSt1()), Startup.toStartupModel(batalha.getSt2()), batalha.isFinalizada());
     }
 
 }

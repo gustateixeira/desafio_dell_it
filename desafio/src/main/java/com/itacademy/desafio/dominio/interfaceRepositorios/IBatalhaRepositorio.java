@@ -7,4 +7,5 @@ public interface IBatalhaRepositorio {
     public BatalhaModel add(BatalhaModel bt);
     public StartupModel vencedor(long id);
     public BatalhaModel buscarPorId(long id);
+    public BatalhaModel atualizar(BatalhaModel bt);
 }
