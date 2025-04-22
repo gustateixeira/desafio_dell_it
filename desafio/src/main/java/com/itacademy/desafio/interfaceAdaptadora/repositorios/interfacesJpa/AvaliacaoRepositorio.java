@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AvaliacaoRepositorio extends CrudRepository<Avaliacao,Long> {
     public Avaliacao findById(long id);
+    public Avaliacao save(Avaliacao av);
 }

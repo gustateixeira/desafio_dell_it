@@ -5,5 +5,5 @@ import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
 
 public interface IAvaliacaoRepositorio {
     public AvaliacaoModel add(AvaliacaoModel av);
-    public AvaliacaoModel atualizarAvaliacao(long id, int valor,String campo);
+    public AvaliacaoModel atualizarAvaliacao(long id,AvaliacaoModel av);
 }

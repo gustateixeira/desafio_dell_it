@@ -36,8 +36,7 @@ public class SorteioServico{
             StartupModel st2 = startups.get(i + 1);
             BatalhaModel batalha = new BatalhaModel(st1, st2);
             System.out.println(batalha.toString());
-            batalhas.add(batalha);
-            batalhaRepositorio.add(batalha);
+            batalhas.add(batalhaRepositorio.add(batalha));
         }
 
         return batalhas;

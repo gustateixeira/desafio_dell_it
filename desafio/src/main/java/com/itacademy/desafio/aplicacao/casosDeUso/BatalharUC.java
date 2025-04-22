@@ -1,6 +1,7 @@
 package com.itacademy.desafio.aplicacao.casosDeUso;
 
 
+import com.itacademy.desafio.aplicacao.dtos.AvaliacaoDto;
 import com.itacademy.desafio.aplicacao.dtos.BatalhaDto;
 import com.itacademy.desafio.dominio.servicos.AtualizarBatalha;
 import com.itacademy.desafio.dominio.servicos.AtualizarServico;
@@ -22,33 +23,13 @@ public class BatalharUC {
         this.checarBatalhaServico = checarBatalhaServico;
         this.atualizarBatalha = atualizarBatalha;
     }
-    public BatalhaDto run(String campo, BatalhaDto batalhaDto,  int vl1, int vl2){
-        if(batalhaDto.isFinalizada()){
+    public BatalhaDto run(long id, AvaliacaoDto av1, AvaliacaoDto av2) {
+        if (checarBatalhaServico.checarSeFinalizada(id)) {
             throw new IllegalArgumentException("Essa batalha já foi finalizada, selecione outra");
         }
-
-        if(checarBatalhaServico.contem(campo)){
-            throw new IllegalArgumentException("Este evento já foi avaliado.");
-        }
-
-        if(checarBatalhaServico.size() == 5){
-            System.out.println("Aqui!");
-            this.checarBatalhaServico.add(campo);
-            this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt1Id(), vl1, campo);
-            this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt2Id(), vl2, campo);
-            this.atualizarBatalha.setarFinalizada(batalhaDto.getId());
-            batalhaDto.setFinalizada(true);
-            this.checarBatalhaServico.restart();
-            return batalhaDto;
-        }
-
-
-        this.checarBatalhaServico.add(campo);
-        this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt1Id(), vl1, campo);
-        this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt2Id(), vl2, campo);
-
-        return batalhaDto;
+        atualizarServico.atualizarAvaliacao(av1);
+        atualizarServico.atualizarAvaliacao(av2);
+        return BatalhaDto.fromModel(this.atualizarBatalha.setarFinalizada(id));
     }
-
 }
 

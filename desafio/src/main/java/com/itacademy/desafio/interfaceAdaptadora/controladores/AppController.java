@@ -2,6 +2,7 @@ package com.itacademy.desafio.interfaceAdaptadora.controladores;
 
 
 import com.itacademy.desafio.aplicacao.casosDeUso.*;
+import com.itacademy.desafio.aplicacao.dtos.AvaliacaoDto;
 import com.itacademy.desafio.aplicacao.dtos.BatalhaDto;
 import com.itacademy.desafio.aplicacao.dtos.StartupDto;
 import org.springframework.web.bind.annotation.*;
@@ -56,9 +57,9 @@ public class AppController {
         return "Batalha Escolhida: " + batalhaEscolhida.getName1() + " x " + batalhaEscolhida.getName2() + "\n";
     }
     @CrossOrigin(origins = "*")
-    @GetMapping("/sorteio/rodada/{campo}")
-    public String batalhar(@PathVariable String campo, @RequestParam int vl1, @RequestParam int vl2){
-        return this.batalharUC.run(campo, this.selecionarBatalhaUC.getBatalhaEscolhidaId(), vl1, vl2).toString();
+    @PutMapping("/sorteio/rodada/{batalhaid}")
+    public BatalhaDto batalhar(@PathVariable long batalhaid, @RequestBody List<AvaliacaoDto> avaliacaoDtos){
+        return this.batalharUC.run(batalhaid, avaliacaoDtos.get(0), avaliacaoDtos.get(1));
     }
 
     @CrossOrigin(origins = "*")

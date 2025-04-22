@@ -24,6 +24,7 @@ public class Batalha {
     @JoinColumn(name = "id_startup2")
     private Startup st2;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private @Setter boolean finalizada;
 
     protected Batalha(){}

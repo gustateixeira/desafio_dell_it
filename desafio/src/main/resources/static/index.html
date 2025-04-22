@@ -12,37 +12,40 @@
     <button id="btnCriarStartup" class="button" >Criar Startups</button>
 </div>
 <div id="paginaSorteio" style="display: none;">
-    <button id="btnVoltarSorteio" class="button">Voltar</button>
-    <div class="batalhas-grid"></div>
-</div>
-<div id="paginaBatalha" style="display: none;">
-    <button id="btnVoltarBatalha" class="button">Voltar</button>
+    <h1>Batalhas de Startups</h1>
+        <div class="batalhas-container">
+            <div class="batalhas-grid"></div>
+        </div>
 </div>
 
 <div id="paginaCriarStartup" style="display: none;">
     <h1>Criar Nova Startup</h1>
-    <form id="formCriarStartup">
-        <div class="form-container">
-            <div class="form-group">
-                <label for="nome">Nome da Startup <span style="color: red;">*</span></label>
-                <input type="text" id="nome" name="nome" required>
+    <div class="form-wrapper">
+        <form id="formCriarStartup">
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="nome">Nome da Startup <span style="color: red;">*</span></label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="slogan">Slogan <span style="color: red;">*</span></label>
+                    <input type="text" id="slogan" name="slogan" required>
+                </div>
+                <div class="form-group">
+                    <label for="fundacao">Ano de Fundação <span style="color: red;">*</span></label>
+                    <input type="number" id="fundacao" name="fundacao" required>
+                </div>
+                <button type="submit" class="btn-submit">Criar Startup</button>
             </div>
-            <div class="form-group">
-                <label for="slogan">Slogan <span style="color: red;">*</span></label>
-                <input type="text" id="slogan" name="slogan" required>
-            </div>
-            <div class="form-group">
-                <label for="fundacao">Ano de Fundação <span style="color: red;">*</span></label>
-                <input type="number" id="fundacao" name="fundacao" required>
-            </div>
-            <button type="submit" class="btn-submit">Criar Startup</button>
+        </form>
+        <div class="botoes-acoes">
+        <button id="btnSortear" class="button">Sortear</button>
+        <button id="btnVoltarCriarStartup" class="button">Voltar</button>
         </div>
-    </form>
+    </div>
+
     <h2>Startups Criadas</h2>
     <div class="startup-grid"></div>
-    <button id="btnVoltarCriarStartup" class="button">Voltar</button>
-    <button id="btnSortear" class="button">Sortear</button>
-</div>
-<script src="./js/script.js"></script>
+</div><script src="./js/script.js"></script>
 </body>
 </html>
