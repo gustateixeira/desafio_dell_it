@@ -23,8 +23,14 @@ public class DefinirVencedorServico {
 
     public BatalhaModel definirVencedor(long id){
         BatalhaModel batalhaModel = this.iBatalhaRepositorio.buscarPorId(id);
+        if(!batalhaModel.isFinalizada()){
+            throw new IllegalArgumentException("Essa batalha não foi finalizada ainda.");
+        }
         StartupModel st1 = batalhaModel.getSt1();
         StartupModel st2 = batalhaModel.getSt2();
+        System.out.println("ST1: " + st1.toString());
+        System.out.println("ST2: " + st2.toString());
+
         if(st1.getPontuacao() > st2.getPontuacao()){
             batalhaModel.setVencedor(st1);
             iBatalhaRepositorio.atualizar(batalhaModel);
@@ -40,13 +46,16 @@ public class DefinirVencedorServico {
 
     private BatalhaModel sharkFight(BatalhaModel bt){
         int ganhador = random.nextInt(2);
+        System.out.println("ST1: " + bt.getSt1().toString());
+        System.out.println("ST2: " + bt.getSt2().toString());
+        System.out.println();
         if(ganhador == 1){
-            bt.setVencedor(bt.getSt1());
-            iStartupRepositorio.atualizarPontos(bt.getSt1().getId(), 2);
+
+            bt.setVencedor(iStartupRepositorio.atualizarPontos(bt.getSt1().getId(), 2));
+            iBatalhaRepositorio.atualizar(bt);
             return iBatalhaRepositorio.atualizar(bt);
         }
-        bt.setVencedor(bt.getSt2());
-        iStartupRepositorio.atualizarPontos(bt.getSt2().getId(), 2);
+        bt.setVencedor(iStartupRepositorio.atualizarPontos(bt.getSt2().getId(), 2));
         return iBatalhaRepositorio.atualizar(bt);
     }
 

@@ -15,14 +15,16 @@ public class AppController {
     private final SelecionarBatalhaUC selecionarBatalhaUC;
     private final BatalharUC batalharUC;
     private final DefinirGanhadorUC definirGanhadorUC;
+    private final MostarStartupsUC mostarStartupsUC;
 
 
-    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC){
+    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC, MostarStartupsUC mostarStartupsUC){
         this.criarStartupUC = criarStartupUC;
         this.sortearBatalhasUC = sortearBatalhaUC;
         this.selecionarBatalhaUC = selecionarBatalhaUC;
         this.batalharUC = batalharUC;
         this.definirGanhadorUC = definirGanhadorUC;
+        this.mostarStartupsUC = mostarStartupsUC;
     }
     @CrossOrigin(origins="*")
     @GetMapping("")
@@ -30,6 +32,11 @@ public class AppController {
         return "Desafio da Dell IT Academy 2025";
     }
 
+    @CrossOrigin(origins="*")
+    @GetMapping("/listarStartups")
+    public List<StartupDto> mostrarTodas(){
+        return this.mostarStartupsUC.run();
+    }
     @CrossOrigin(origins ="*")
     @PostMapping("/criarStartup")
     public StartupDto criarStartup(@RequestBody StartupDto st){
@@ -37,18 +44,9 @@ public class AppController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/sorteio/iniciar")
-    public String iniciarSorteio(){
-        List<BatalhaDto> batalhas = sortearBatalhasUC.run();
-        StringBuilder str = new StringBuilder();
-        int i = 1;
-        for(BatalhaDto b : batalhas){
-            String st = b.getName1() + " X " + b.getName2();
-            str.append("Batalha ").append(i).append(" :").append(st).append('\n');
-            i++;
-        }
-        str.append("\n").append("Escolha uma batalha para controlar, entre 1 e ").append(batalhas.size());
-        return str.toString();
+    @GetMapping("/sorteio")
+    public List<BatalhaDto> iniciarSorteio(){
+        return sortearBatalhasUC.run();
     }
 
     @CrossOrigin(origins = "*")

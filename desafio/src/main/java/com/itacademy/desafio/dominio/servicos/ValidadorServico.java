@@ -14,10 +14,7 @@ public class ValidadorServico {
 
     public boolean valida(){
         int tam = this.startupRepositorio.buscarTodos().size();
-        if(tam % 2 != 0){
-            return false;
-        }
-        return tam >= 4 && tam <= 8;
+        return tam == 4 || tam == 8;
     }
 
 }

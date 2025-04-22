@@ -23,24 +23,30 @@ public class BatalharUC {
         this.atualizarBatalha = atualizarBatalha;
     }
     public BatalhaDto run(String campo, BatalhaDto batalhaDto,  int vl1, int vl2){
-        if(checarBatalhaServico.size() == 5){
-            this.atualizarBatalha.setarFinalizada(batalhaDto.getId());
-            batalhaDto.setFinalizada(true);
-            throw new IllegalArgumentException("Rodada Finalizada");
+        if(batalhaDto.isFinalizada()){
+            throw new IllegalArgumentException("Essa batalha já foi finalizada, selecione outra");
         }
 
         if(checarBatalhaServico.contem(campo)){
             throw new IllegalArgumentException("Este evento já foi avaliado.");
         }
+
+        if(checarBatalhaServico.size() == 5){
+            System.out.println("Aqui!");
+            this.checarBatalhaServico.add(campo);
+            this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt1Id(), vl1, campo);
+            this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt2Id(), vl2, campo);
+            this.atualizarBatalha.setarFinalizada(batalhaDto.getId());
+            batalhaDto.setFinalizada(true);
+            this.checarBatalhaServico.restart();
+            return batalhaDto;
+        }
+
+
         this.checarBatalhaServico.add(campo);
         this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt1Id(), vl1, campo);
         this.atualizarServico.atualizarAvaliacao(batalhaDto.getSt2Id(), vl2, campo);
 
-        if(checarBatalhaServico.size() == 5) {
-            this.atualizarBatalha.setarFinalizada(batalhaDto.getId());
-            batalhaDto.setFinalizada(true);
-            throw new IllegalArgumentException("Rodada Finalizada");
-        }
         return batalhaDto;
     }
 

@@ -20,9 +20,9 @@ public class SortearBatalhasUC {
 
     public List<BatalhaDto> run(){
         if(!validadorServico.valida()){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Deve haver 4 ou 8 startups para iniciar a batalha.");
         }
-        return sorteioServico.sortear().stream().map(bt -> BatalhaDto.fromModel(bt)).toList();
+        return sorteioServico.sortear().stream().map(BatalhaDto::fromModel).toList();
     }
 
 

@@ -16,6 +16,7 @@ public class BatalhaDto {
     private @Setter boolean finalizada;
     private @Setter long vencedorId;
 
+
     public BatalhaDto(long id, long st1Id, String name1, long st2Id, String name2, boolean finalizada) {
         this.id = id;
         this.st1Id = st1Id;
