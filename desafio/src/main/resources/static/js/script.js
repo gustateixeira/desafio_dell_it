@@ -1,5 +1,6 @@
 const btnCriarStartup = document.getElementById("btnCriarStartup");
-const btnVoltarSorteio = document.getElementById("btnVoltarSorteio");
+const btnSortear = document.getElementById("btnSortear");
+const btnVoltarCriarStartup = document.getElementById("btnVoltarCriarStartup ");
 
 const paginaInicial = document.getElementById("paginaInicial");
 const paginaCriar = document.getElementById("paginaCriarStartup");
@@ -49,33 +50,43 @@ function exibirStartups() {
         });
 }
 function sortear() {
-    fetch("/sorteio")
-        .then(response => response.json())
-        .then(batalhas => {
-            const container = document.querySelector(".batalhas-grid");
-            container.innerHTML = "";
-            batalhas.forEach(bt => {
-                const card = document.createElement("div");
-                card.className = "batalhas-card";
-                card.innerHTML = `
-                    <div class="startup">
-                        <h3>${bt.name1}</h3>
-                        <p>${bt.slogan1 || ""}</p>
-                    </div>
-                    <div class="versus">X</div>
-                    <div class="startup">
-                        <h3>${bt.name2}</h3>
-                        <p>${bt.slogan2 || ""}</p>
-                    </div>
-                    <button class="btn-iniciar-batalha" onclick="iniciarBatalha(${bt.id})">Iniciar Batalha</button>
+   fetch("/sorteio")
+       .then(response => {
+           if (!response.ok) {
+               return response.text().then(text => { throw new Error(text) });
+           }
+           return response.json();
+       })
+       .then(batalhas => {
+           if (batalhas.length === 0) {
+               alert("Não há startups criadas para o sorteio.");
+               return;
+           }
 
-                `;
-                container.appendChild(card);
-            });
-        })
-        .catch(error => {
-            console.error("Erro ao realizar o sorteio:", error);
-        });
+           const container = document.querySelector(".batalhas-grid");
+           container.innerHTML = "";
+
+           batalhas.forEach(bt => {
+               const card = document.createElement("div");
+               card.className = "batalhas-card";
+               card.innerHTML = `
+                   <div class="startup-box">
+                       <h3>${bt.name1}</h3>
+                       <p>${bt.slogan1 || ""}</p>
+                   </div>
+                   <div class="versus">X</div>
+                   <div class="startup-box">
+                       <h3>${bt.name2}</h3>
+                       <p>${bt.slogan2 || ""}</p>
+                   </div>
+               `;
+               container.appendChild(card);
+           });
+           mostrarPagina(paginaSorteio);
+       })
+       .catch(error => {
+           console.error("Erro ao realizar o sorteio:", error);
+       });
 }
 
 function iniciarBatalha(){
@@ -93,12 +104,13 @@ function mostrarPagina(pagina) {
 }
 
 btnCriarStartup.addEventListener("click", () => {
+    exibirStartups();
     mostrarPagina(paginaCriar);
 });
 
 
-btnVoltarSorteio.addEventListener("click", () => {
-    mostrarPagina(paginaInicial);
+btnSortear.addEventListener("click", () => {
+    sortear();
 });
 
 document.getElementById("btnVoltarBatalha").addEventListener("click", () => {

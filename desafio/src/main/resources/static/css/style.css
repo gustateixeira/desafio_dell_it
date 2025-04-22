@@ -111,10 +111,16 @@ body {
 
 .startup-card h2 {
     font-size: 18px;
-    margin: 0;
-    color: #333;
+    color: black;
+    text-align: center;
 }
 
+#paginaCriarStartup h2{
+    font-size: 24px;
+        color: white;
+        text-align: center;
+        margin-bottom: 20px;
+}
 .startup-card p {
     font-size: 14px;
     color: #666;
@@ -157,6 +163,7 @@ body {
         width: 200px;
         text-align: center;
         display: inline-block;
+        self-align :center;
 }
 
 #btnSortear {
@@ -171,4 +178,52 @@ body {
     width: 200px;
     text-align: center;
     display: inline-block;
+    self-align : center;
+}
+
+.batalhas-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.batalhas-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    height: 75px;
+}
+
+.startup-box {
+       flex: 1;
+       background-color: #e0e0ff;
+       padding: 16px;
+       margin: 0px;
+       border-radius: 8px;
+       text-align: center;
+       font-family: 'Montserrat', sans-serif;
+       font-size: 16px;
+       height: 50px;
+       width: 100px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       overflow: hidden;
+       word-wrap: break-word;
+       word-break: break-word;
+       max-width: 100%;
+       color:black;
+}
+
+.versus {
+    font-size: 32px;
+    font-weight: bold;
+    color: black;
 }
