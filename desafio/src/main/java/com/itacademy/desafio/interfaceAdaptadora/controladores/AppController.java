@@ -63,9 +63,9 @@ public class AppController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/sorteio/rodada/ganhador")
-    public String ganhador(){
-        return this.definirGanhadorUC.run(this.selecionarBatalhaUC.getBatalhaEscolhidaId().getId()).toString();
+    @GetMapping("/sorteio/rodada/ganhador/{id}")
+    public StartupDto ganhador(@PathVariable long id){
+        return this.definirGanhadorUC.run(id);
     }
 
 }

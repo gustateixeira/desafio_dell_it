@@ -5,6 +5,7 @@ import com.itacademy.desafio.dominio.interfaceRepositorios.IBatalhaRepositorio;
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
+import org.hibernate.tool.schema.spi.ScriptTargetOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -28,17 +29,16 @@ public class DefinirVencedorServico {
         }
         StartupModel st1 = batalhaModel.getSt1();
         StartupModel st2 = batalhaModel.getSt2();
-        System.out.println("ST1: " + st1.toString());
-        System.out.println("ST2: " + st2.toString());
-
+        st1 = this.iStartupRepositorio.atualizarPontos(st1.getId(), 0);
+        st2 = this.iStartupRepositorio.atualizarPontos(st2.getId(), 0);
         if(st1.getPontuacao() > st2.getPontuacao()){
             batalhaModel.setVencedor(st1);
-            iBatalhaRepositorio.atualizar(batalhaModel);
-            return batalhaModel;
+            System.out.println("VENCEDOR: " +  st1);
+            return iBatalhaRepositorio.atualizar(batalhaModel);
         }else if(st2.getPontuacao() > st1.getPontuacao()){
             batalhaModel.setVencedor(st2);
-            iBatalhaRepositorio.atualizar(batalhaModel);
-            return batalhaModel;
+            System.out.println("VENCEDOR: " +  st2);
+            return iBatalhaRepositorio.atualizar(batalhaModel);
         }
 
         return sharkFight(batalhaModel);
@@ -50,7 +50,6 @@ public class DefinirVencedorServico {
         System.out.println("ST2: " + bt.getSt2().toString());
         System.out.println();
         if(ganhador == 1){
-
             bt.setVencedor(iStartupRepositorio.atualizarPontos(bt.getSt1().getId(), 2));
             iBatalhaRepositorio.atualizar(bt);
             return iBatalhaRepositorio.atualizar(bt);

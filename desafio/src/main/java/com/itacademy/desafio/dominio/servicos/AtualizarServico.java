@@ -26,13 +26,12 @@ public class AtualizarServico {
     }
 
     public AvaliacaoModel atualizarAvaliacao(AvaliacaoDto avaliacaoDto){
-        AvaliacaoModel av  = this.avaliacaoRepositorio.atualizarAvaliacao(avaliacaoDto.getId(), new AvaliacaoModel(avaliacaoDto.getId(),
+        return this.avaliacaoRepositorio.atualizarAvaliacao(avaliacaoDto.getId(), new AvaliacaoModel(avaliacaoDto.getId(),
                 avaliacaoDto.getPitch(),
                 avaliacaoDto.getBugs(),
                 avaliacaoDto.getUsuarios(),
                 avaliacaoDto.getInvestidorIrritado(),
                 avaliacaoDto.getFakeNews()));
-        return av;
     }
 
 }

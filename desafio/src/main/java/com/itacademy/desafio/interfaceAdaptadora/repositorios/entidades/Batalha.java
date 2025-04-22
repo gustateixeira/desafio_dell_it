@@ -27,14 +27,18 @@ public class Batalha {
     @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private @Setter boolean finalizada;
 
+    @OneToOne
+    @JoinColumn(name = "id_startup_vencedor", nullable = true)
+    private @Setter Startup vencedor;
+
     protected Batalha(){}
 
     public static Batalha fromBatalhaModel(BatalhaModel batalhaModel){
-        return new Batalha(batalhaModel.getId(), Startup.fromStartupModel(batalhaModel.getSt1()), Startup.fromStartupModel(batalhaModel.getSt2()), batalhaModel.isFinalizada());
+        return new Batalha(batalhaModel.getId(), Startup.fromStartupModel(batalhaModel.getSt1()), Startup.fromStartupModel(batalhaModel.getSt2()), batalhaModel.isFinalizada(),  Startup.fromStartupModel(batalhaModel.getVencedor()));
     }
 
     public static BatalhaModel toBatalhaModel(Batalha batalha){
-        return new BatalhaModel(batalha.getId(), Startup.toStartupModel(batalha.getSt1()), Startup.toStartupModel(batalha.getSt2()), batalha.isFinalizada());
+        return new BatalhaModel(batalha.getId(), Startup.toStartupModel(batalha.getSt1()), Startup.toStartupModel(batalha.getSt2()),Startup.toStartupModel(batalha.getVencedor()) ,batalha.isFinalizada());
     }
 
 }

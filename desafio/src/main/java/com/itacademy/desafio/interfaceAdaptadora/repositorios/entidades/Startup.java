@@ -30,10 +30,17 @@ public class Startup {
 
 
     public static Startup fromStartupModel(StartupModel st){
+        if (st == null) {
+            return null;
+        }
+
         return new Startup(st.getId(), st.getNome(), Avaliacao.fromAvaliacaoModel(st.getAv()),st.getSlogan(), st.getFundacao(), st.getPontuacao());
     }
 
     public static StartupModel toStartupModel(Startup st){
+        if(st == null){
+            return null;
+        }
         return new StartupModel(st.getId(), st.getNome(), Avaliacao.toAvaliacaoModel(st.getAv()) , st.getSlogan(), st.getFundacao(), st.getPontuacao());
     }
 }

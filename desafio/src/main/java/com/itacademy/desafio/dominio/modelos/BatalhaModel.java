@@ -3,9 +3,11 @@ package com.itacademy.desafio.dominio.modelos;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
+@ToString
 public class BatalhaModel {
     private long id;
     private StartupModel st1;
@@ -23,8 +25,5 @@ public class BatalhaModel {
         this.st1 = st1;
         this.st2 = st2;
     }
-    @Override
-    public String toString(){
-        return "Batalha: " + st1.getNome() + " x " + st2.getNome();
-    }
+
 }

@@ -22,11 +22,12 @@ public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
 
     public AvaliacaoModel atualizarAvaliacao(long id,AvaliacaoModel av){
         Avaliacao avaliacao = this.avaliacaoRepositorio.findById(id);
+        System.out.println("avaliacao nova: " + avaliacao);
         avaliacao.setPitch(av.getPitch() + avaliacao.getPitch());
         avaliacao.setBugs(av.getBugs() + avaliacao.getBugs());
-        avaliacao.setUsuarios(av.getUsuarios() + avaliacao.getUsuarios());
+        avaliacao.setUsuarios(av.getUsuarios()+ avaliacao.getUsuarios());
         avaliacao.setInvestidorIrritado(av.getInvestidorIrritado() + avaliacao.getInvestidorIrritado());
-        avaliacao.setFakeNews(av.getFakeNews() + avaliacao.getFakeNews());
+        avaliacao.setFakeNews(av.getFakeNews()+ avaliacao.getFakeNews());
         return Avaliacao.toAvaliacaoModel(this.avaliacaoRepositorio.save(avaliacao));
     }
 
