@@ -1,11 +1,11 @@
 package com.itacademy.desafio.dominio.interfaceRepositorios;
 
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
-import com.itacademy.desafio.dominio.modelos.StartupModel;
-
+import java.util.List;
 public interface IBatalhaRepositorio {
     public BatalhaModel add(BatalhaModel bt);
-    public StartupModel vencedor(long id);
     public BatalhaModel buscarPorId(long id);
+    public List<BatalhaModel> buscarTodas();
+
     public BatalhaModel atualizar(BatalhaModel bt);
 }

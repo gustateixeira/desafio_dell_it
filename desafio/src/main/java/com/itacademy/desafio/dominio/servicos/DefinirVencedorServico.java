@@ -32,10 +32,12 @@ public class DefinirVencedorServico {
         st1 = this.iStartupRepositorio.atualizarPontos(st1.getId(), 0);
         st2 = this.iStartupRepositorio.atualizarPontos(st2.getId(), 0);
         if(st1.getPontuacao() > st2.getPontuacao()){
+            st1 = this.iStartupRepositorio.atualizarPontos(st1.getId(), 30);
             batalhaModel.setVencedor(st1);
             System.out.println("VENCEDOR: " +  st1);
             return iBatalhaRepositorio.atualizar(batalhaModel);
         }else if(st2.getPontuacao() > st1.getPontuacao()){
+            st2 = this.iStartupRepositorio.atualizarPontos(st2.getId(), 30);
             batalhaModel.setVencedor(st2);
             System.out.println("VENCEDOR: " +  st2);
             return iBatalhaRepositorio.atualizar(batalhaModel);

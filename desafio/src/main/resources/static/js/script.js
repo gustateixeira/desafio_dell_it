@@ -1,11 +1,13 @@
 const btnCriarStartup = document.getElementById("btnCriarStartup");
 const btnSortear = document.getElementById("btnSortear");
-const btnVoltarCriarStartup = document.getElementById("btnVoltarCriarStartup ");
 
 const paginaInicial = document.getElementById("paginaInicial");
 const paginaCriar = document.getElementById("paginaCriarStartup");
 const paginaSorteio = document.getElementById("paginaSorteio");
 let startupsCriadas = 0;
+
+
+let vencedores = [];
 
 const formCriarStartup = document.getElementById("formCriarStartup");
 
@@ -133,11 +135,11 @@ function sortear() {
                           </label>
                       </div>
                   </div>
+
                   <button class="btn-submit">Enviar</button>
                `;
                container.appendChild(card);
            });
-
            mostrarPagina(paginaSorteio);
            return batalhas;
        })
@@ -199,12 +201,187 @@ function enviarBatalha(card) {
     })
     .then(data => {
        alert("Enviado!");
+       verificarSeBatalhasFinalizaram();
+       return getVencedor(batalhaid);
     })
     .catch(error => {
         alert(error);
     });
 }
 
+function getVencedor(id){
+    fetch(`/sorteio/rodada/ganhador/${id}`)
+    .then(response => {
+               if (!response.ok) {
+                   return response.text().then(text => { throw new Error(text) });
+               }
+      return response.json();
+    })
+    .then(data =>{
+        console.log('Ganhador:', data);
+        vencedores.push(data);
+
+        return data;
+    })
+   .catch(error =>{
+        console.log(error)
+   });
+}
+
+function exibirVencedor(vencedor) {
+    const container = document.querySelector(".startup-card");
+    container.innerHTML = `
+        <h2>Vencedor da Batalha</h2>
+        <h2>${vencedor.nome}</h2>
+        <p><strong>Slogan:</strong> ${vencedor.slogan}</p>
+        <p><strong>Fundação:</strong> ${vencedor.fundacao}</p>
+        <p><strong>Pontuação:</strong> ${vencedor.pontuacao}</p>
+    `;
+    mostrarPagina(document.getElementById("paginaVencedor"));
+    carregarAvaliacoesETabela();
+}
+
+function sortearNovamente(listaDeVencedores) {
+
+   console.log("Vencedores: ", vencedores);
+   vencedores = [];
+
+  fetch("/sorteio/novo", {
+         method: "PUT",
+         headers: {
+             'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(listaDeVencedores)
+     })
+     .then(response => {
+         if (!response.ok) {
+             return response.text().then(text => { throw new Error(text) });
+         }
+         return response.json();
+     })
+       .then(batalhas => {
+           if (batalhas.length === 0) {
+               alert("Não há startups criadas para o sorteio.");
+               return;
+           }
+
+           const container = document.querySelector(".batalhas-grid");
+           container.innerHTML = "";
+
+           batalhas.forEach(bt => {
+               const card = document.createElement("div");
+               card.className = "batalhas-card";
+               card.dataset.batalhaid = bt.id;
+               card.dataset.st1Id = bt.st1Id;
+               card.dataset.st2Id = bt.st2Id;
+               console.log(card.dataset.batalhaid);
+               console.log(card.dataset.st1Id);
+               console.log(card.dataset.st2Id);
+
+
+
+               card.innerHTML = `
+                  <div class="startup-box">
+                      <h3>${bt.name1}</h3>
+                      <div class="atributos">
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="1" value="pitch">
+                              Pitch convincente
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="1" value="bugs">
+                              Produto com bugs
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="1" value="usuarios">
+                              Boa tração de usuários
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="1" value="investidorIrritado">
+                              Investidor irritado
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="1" value="fakeNews">
+                              Fake news no pit
+                          </label>
+                      </div>
+                  </div>
+                  <div class="versus">VS</div>
+                  <div class="startup-box">
+                      <h3>${bt.name2}</h3>
+                      <div class="atributos">
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="2" value="pitch">
+                              Pitch convincente
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="2" value="bugs">
+                              Produto com bugs
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="2" value="usuarios">
+                              Boa tração de usuários
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="2" value="investidorIrritado">
+                              Investidor irritado
+                          </label>
+                          <label>
+                              <input type="checkbox" class="atributos-checkbox" data-startup="2" value="fakeNews">
+                              Fake news no pit
+                          </label>
+                      </div>
+                  </div>
+                  <button class="btn-submit">Enviar</button>
+               `;
+               container.appendChild(card);
+           });
+           mostrarPagina(paginaSorteio);
+           console.log("vencedores", vencedores);
+
+
+           return batalhas;
+       })
+       .catch(error => {
+            console.log(error)
+       });
+}
+
+
+document.getElementById("btnProximaRodada").addEventListener("click", () => {
+   if(vencedores.length === 1 ){
+                exibirVencedor(vencedores[0]);
+                return;
+  }
+  sortearNovamente(vencedores);
+});
+
+function verificarSeBatalhasFinalizaram() {
+    fetch("/batalhas/finalizadas")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao verificar batalhas finalizadas.");
+            }
+            return response.json();
+        })
+        .then(finalizadas => {
+            if (finalizadas) {
+                desbloquearBotaoProximaRodada();
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function desbloquearBotaoProximaRodada() {
+    const botao = document.getElementById("btnProximaRodada");
+    if (!botao) return;
+
+    botao.disabled = false;
+    botao.style.display = "block";
+
+}
 
 function getCheckboxValue(card, value) {
     const checkbox = card.querySelector(`input[type="checkbox"][value="${value}"]`);
@@ -220,6 +397,7 @@ function mostrarPagina(pagina) {
     paginaInicial.style.display = "none";
     paginaCriar.style.display = "none";
     paginaSorteio.style.display = "none";
+    paginaVencedor.style.display = "none";
     pagina.style.display = "block";
 }
 
@@ -268,3 +446,55 @@ formCriarStartup.addEventListener("submit", (e) => {
             alert("Erro ao criar startup.");
         });
     });
+
+    function desbloquearBotaoProximaRodada() {
+      const botao = document.getElementById("btnProximaRodada");
+      if (!botao) return;
+
+      botao.disabled = false;
+      botao.style.display = "block";
+   }
+
+
+function carregarAvaliacoesETabela() {
+    fetch("/avaliacoes")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao buscar avaliações.");
+            }
+            return response.json();
+        })
+        .then(avaliacoes => {
+            const tabela = document.getElementById("tabelaAvaliacoes");
+            tabela.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Pitch</th>
+                        <th>Bugs</th>
+                        <th>Boa Tração de Usuários</th>
+                        <th>Investidor Irritado</th>
+                        <th>Fake News</th>
+                        <th>Pontuação</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    ${avaliacoes.map(av => `
+                        <tr>
+                            <td>${av.pitch}</td>
+                            <td>${av.bugs}</td>
+                            <td>${av.usuarios}</td>
+                            <td>${av.investidorIrritado}</td>
+                            <td>${av.fakeNews}</td>
+                            <td>${av.pitch * 6 + av.bugs * (-4) + av.usuarios*3 + av.investidorIrritado*(-6) + av.fakeNews*(-8) + 70}</td>
+
+                        </tr>
+                    `).join("")}
+                </tbody>
+            `;
+        })
+        .catch(error => {
+            console.error("Erro ao montar a tabela de avaliações:", error);
+        });
+}
+

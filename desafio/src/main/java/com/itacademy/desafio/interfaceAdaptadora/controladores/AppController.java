@@ -17,15 +17,19 @@ public class AppController {
     private final BatalharUC batalharUC;
     private final DefinirGanhadorUC definirGanhadorUC;
     private final MostarStartupsUC mostarStartupsUC;
+    private final BatalhasFinalizadasUC batalhasFinalizadasUC;
+    private final PegarAvaliacoesUC pegarAvaliacoesUC;
 
 
-    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC, MostarStartupsUC mostarStartupsUC){
+    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC, MostarStartupsUC mostarStartupsUC, BatalhasFinalizadasUC batalhasFinalizadasUC, PegarAvaliacoesUC pegarAvaliacoesUC){
         this.criarStartupUC = criarStartupUC;
         this.sortearBatalhasUC = sortearBatalhaUC;
         this.selecionarBatalhaUC = selecionarBatalhaUC;
         this.batalharUC = batalharUC;
         this.definirGanhadorUC = definirGanhadorUC;
         this.mostarStartupsUC = mostarStartupsUC;
+        this.batalhasFinalizadasUC = batalhasFinalizadasUC;
+        this.pegarAvaliacoesUC = pegarAvaliacoesUC;
     }
     @CrossOrigin(origins="*")
     @GetMapping("")
@@ -68,4 +72,20 @@ public class AppController {
         return this.definirGanhadorUC.run(id);
     }
 
+        @CrossOrigin(origins = "*")
+        @GetMapping("/batalhas/finalizadas")
+        public boolean batalhasFinalizadas(){
+            return this.batalhasFinalizadasUC.run();
+        }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/sorteio/novo")
+    public List<BatalhaDto> novoSorteio(@RequestBody List<StartupDto> startupDtos){
+        return sortearBatalhasUC.run(startupDtos);
+    }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/avaliacoes")
+    public List<AvaliacaoDto> avaliacoes(){
+        return pegarAvaliacoesUC.run();
+    }
 }

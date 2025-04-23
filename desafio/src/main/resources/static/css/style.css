@@ -283,3 +283,39 @@ body {
 .atributos input[type="checkbox"]:hover {
     cursor: pointer;
 }
+
+#tabelaAvaliacoes {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+}
+
+#tabelaAvaliacoes thead tr {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+#tabelaAvaliacoes th,
+
+#tabelaAvaliacoes td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  min-width: 120px;
+  color:black;
+}
+
+#tabelaAvaliacoes tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+#tabelaAvaliacoes tbody tr:last-child td {
+  border-bottom: none;
+}
+

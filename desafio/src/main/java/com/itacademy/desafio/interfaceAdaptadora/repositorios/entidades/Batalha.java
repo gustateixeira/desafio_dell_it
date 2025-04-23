@@ -16,18 +16,18 @@ public class Batalha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_startup1")
     private Startup st1;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_startup2")
     private Startup st2;
 
     @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private @Setter boolean finalizada;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_startup_vencedor", nullable = true)
     private @Setter Startup vencedor;
 

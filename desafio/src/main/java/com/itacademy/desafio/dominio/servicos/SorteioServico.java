@@ -41,5 +41,22 @@ public class SorteioServico{
 
         return batalhas;
     }
+    public List<BatalhaModel> sortear(List<StartupModel> startupModels){
+        List<StartupModel> startups = new ArrayList<>(startupModels);
+        List<BatalhaModel> batalhas = new ArrayList<>();
+
+
+        Collections.shuffle(startups, this.random);
+
+        for (int i = 0; i < startups.size() - 1; i += 2) {
+            StartupModel st1 = startups.get(i);
+            StartupModel st2 = startups.get(i + 1);
+            BatalhaModel batalha = new BatalhaModel(st1, st2);
+            System.out.println(batalha.toString());
+            batalhas.add(batalhaRepositorio.add(batalha));
+        }
+
+        return batalhas;
+    }
 
 }

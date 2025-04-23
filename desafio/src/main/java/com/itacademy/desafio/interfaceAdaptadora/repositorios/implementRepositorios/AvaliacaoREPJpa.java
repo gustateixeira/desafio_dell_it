@@ -7,6 +7,8 @@ import com.itacademy.desafio.interfaceAdaptadora.repositorios.interfacesJpa.Aval
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
     private final AvaliacaoRepositorio avaliacaoRepositorio;
@@ -31,4 +33,11 @@ public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
         return Avaliacao.toAvaliacaoModel(this.avaliacaoRepositorio.save(avaliacao));
     }
 
+    public AvaliacaoModel buscarPorId(long id){
+        return Avaliacao.toAvaliacaoModel(this.avaliacaoRepositorio.findById(id));
+    }
+
+    public List<AvaliacaoModel> buscarTodas(){
+        return this.avaliacaoRepositorio.findAll().stream().map(Avaliacao::toAvaliacaoModel).toList();
+    }
 }

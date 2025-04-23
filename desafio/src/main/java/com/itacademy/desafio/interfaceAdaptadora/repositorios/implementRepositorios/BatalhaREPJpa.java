@@ -21,9 +21,8 @@ public class BatalhaREPJpa implements IBatalhaRepositorio {
     public BatalhaModel add(BatalhaModel batalha){
        return Batalha.toBatalhaModel(this.batalhasRepositorio.save(Batalha.fromBatalhaModel(batalha)));
     }
-    public StartupModel vencedor(long id){
-       Batalha bt = this.batalhasRepositorio.findById(id);
-       return (bt.getSt1().getPontuacao() > bt.getSt2().getPontuacao()) ? Startup.toStartupModel(bt.getSt1()) : Startup.toStartupModel(bt.getSt2());
+    public List<BatalhaModel> buscarTodas(){
+        return this.batalhasRepositorio.findAll().stream().map(Batalha::toBatalhaModel).toList();
     }
     public BatalhaModel buscarPorId(long id){
         return Batalha.toBatalhaModel(this.batalhasRepositorio.findById(id));
