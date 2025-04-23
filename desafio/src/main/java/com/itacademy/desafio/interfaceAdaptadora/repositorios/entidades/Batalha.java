@@ -1,7 +1,6 @@
 package com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades;
 
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
-import com.itacademy.desafio.dominio.modelos.StartupModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

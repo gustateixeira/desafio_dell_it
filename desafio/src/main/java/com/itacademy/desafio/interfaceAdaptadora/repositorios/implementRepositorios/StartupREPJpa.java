@@ -1,28 +1,20 @@
 package com.itacademy.desafio.interfaceAdaptadora.repositorios.implementRepositorios;
 
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
-import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Avaliacao;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Startup;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.interfacesJpa.StartupRepositorio;
-import org.hibernate.sql.ast.tree.expression.Star;
-import org.springframework.context.annotation.Primary;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
-@Primary
+@AllArgsConstructor
+
 public class StartupREPJpa implements IStartupRepositorio {
     private final StartupRepositorio startupRepositorio;
-    private static long id;
-
-    public StartupREPJpa(StartupRepositorio startupRepositorio) {
-        this.startupRepositorio = startupRepositorio;
-        id = 0;
-    }
 
     public List<StartupModel> buscarTodos(){
         List<Startup> startups = this.startupRepositorio.findAll();

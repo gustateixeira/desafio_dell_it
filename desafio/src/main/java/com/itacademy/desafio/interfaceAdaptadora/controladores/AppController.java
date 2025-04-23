@@ -16,7 +16,6 @@ public class AppController {
     private final ModoAleatorioUC modoAleatorioUC;
     private final CriarStartupUC criarStartupUC;
     private final SortearBatalhasUC sortearBatalhasUC;
-    private final SelecionarBatalhaUC selecionarBatalhaUC;
     private final BatalharUC batalharUC;
     private final DefinirGanhadorUC definirGanhadorUC;
     private final MostarStartupsUC mostarStartupsUC;
@@ -25,11 +24,6 @@ public class AppController {
 
 
 
-    @CrossOrigin(origins="*")
-    @GetMapping("")
-    public String home(){
-        return "Desafio da Dell IT Academy 2025";
-    }
 
     @CrossOrigin(origins="*")
     @GetMapping("/listarStartups")
@@ -49,12 +43,6 @@ public class AppController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/sorteio/escolherBatalha")
-    public String escolherBatalha(@RequestParam int id){
-        BatalhaDto batalhaEscolhida = this.selecionarBatalhaUC.selecionarBatalha(id);
-        return "Batalha Escolhida: " + batalhaEscolhida.getName1() + " x " + batalhaEscolhida.getName2() + "\n";
-    }
-    @CrossOrigin(origins = "*")
     @PutMapping("/sorteio/rodada/{batalhaid}")
     public BatalhaDto batalhar(@PathVariable long batalhaid, @RequestBody List<AvaliacaoDto> avaliacaoDtos){
         return this.batalharUC.run(batalhaid, avaliacaoDtos.get(0), avaliacaoDtos.get(1));
@@ -66,11 +54,11 @@ public class AppController {
         return this.definirGanhadorUC.run(id);
     }
 
-        @CrossOrigin(origins = "*")
-        @GetMapping("/batalhas/finalizadas")
-        public boolean batalhasFinalizadas(){
-            return this.batalhasFinalizadasUC.run();
-        }
+    @CrossOrigin(origins = "*")
+    @GetMapping("/batalhas/finalizadas")
+    public boolean batalhasFinalizadas(){
+           return this.batalhasFinalizadasUC.run();
+    }
 
     @CrossOrigin(origins = "*")
     @PutMapping("/sorteio/novo")

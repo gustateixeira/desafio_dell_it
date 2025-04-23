@@ -4,10 +4,13 @@ import com.itacademy.desafio.dominio.interfaceRepositorios.IBatalhaRepositorio;
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+
+@AllArgsConstructor
 @Service
 public class SorteioServico{
 
@@ -18,11 +21,6 @@ public class SorteioServico{
     private final IStartupRepositorio startupRepositorio;
     private final IBatalhaRepositorio batalhaRepositorio;
 
-    public SorteioServico(Random r , IStartupRepositorio startupRepositorio, IBatalhaRepositorio batalhaRepositorio1){
-        this.random = r;
-        this.startupRepositorio = startupRepositorio;
-        this.batalhaRepositorio = batalhaRepositorio1;
-    }
 
     public List<BatalhaModel> sortear(){
         List<StartupModel> startups = new ArrayList<>(this.startupRepositorio.buscarTodos());

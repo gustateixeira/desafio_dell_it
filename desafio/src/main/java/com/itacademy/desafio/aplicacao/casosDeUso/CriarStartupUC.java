@@ -5,7 +5,6 @@ import com.itacademy.desafio.aplicacao.dtos.AvaliacaoDto;
 import com.itacademy.desafio.aplicacao.dtos.StartupDto;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.dominio.servicos.CadastrarServico;
-import com.itacademy.desafio.dominio.servicos.StartupServico;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class CriarStartupUC {
     private final CadastrarServico cadastrarServico;
-    private final StartupServico startupServico;
 
     public StartupDto run(StartupDto st ){
         StartupModel aux = cadastrarServico.cadastrarStartup(new StartupModel(st.getNome(), st.getSlogan(), st.getFundacao()));

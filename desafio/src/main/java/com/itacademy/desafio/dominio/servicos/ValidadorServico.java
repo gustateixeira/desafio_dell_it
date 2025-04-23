@@ -3,17 +3,15 @@ package com.itacademy.desafio.dominio.servicos;
 
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ValidadorServico {
     private final IStartupRepositorio startupRepositorio;
-
-    public ValidadorServico(IStartupRepositorio startupRepositorio){
-        this.startupRepositorio = startupRepositorio;
-    }
 
     public boolean valida(){
         int tam = this.startupRepositorio.buscarTodos().size();

@@ -5,22 +5,17 @@ import com.itacademy.desafio.dominio.interfaceRepositorios.IBatalhaRepositorio;
 import com.itacademy.desafio.dominio.interfaceRepositorios.IStartupRepositorio;
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
-import org.hibernate.tool.schema.spi.ScriptTargetOutput;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
+@AllArgsConstructor
 @Service
 public class DefinirVencedorServico {
     private final IBatalhaRepositorio iBatalhaRepositorio;
     private final IStartupRepositorio iStartupRepositorio;
     private final Random random;
-
-    public DefinirVencedorServico(IBatalhaRepositorio iBatalhaRepositorio, IStartupRepositorio iStartupRepositorio, Random r){
-        this.iBatalhaRepositorio = iBatalhaRepositorio;
-        this.iStartupRepositorio = iStartupRepositorio;
-        this.random = r;
-    }
 
     public BatalhaModel definirVencedor(long id){
         BatalhaModel batalhaModel = this.iBatalhaRepositorio.buscarPorId(id);

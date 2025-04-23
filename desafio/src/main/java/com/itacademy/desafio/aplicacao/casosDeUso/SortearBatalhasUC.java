@@ -6,21 +6,18 @@ import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.dominio.servicos.AvaliacaoServico;
 import com.itacademy.desafio.dominio.servicos.SorteioServico;
 import com.itacademy.desafio.dominio.servicos.ValidadorServico;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Component
 public class SortearBatalhasUC {
     private final ValidadorServico validadorServico;
     private final AvaliacaoServico avaliacaoServico;
     private final SorteioServico sorteioServico;
 
-    public SortearBatalhasUC(ValidadorServico validadorServico, AvaliacaoServico avaliacaoServico, SorteioServico sorteioServico) {
-        this.validadorServico = validadorServico;
-        this.avaliacaoServico = avaliacaoServico;
-        this.sorteioServico = sorteioServico;
-    }
 
     public List<BatalhaDto> run(){
         if(!validadorServico.valida()){

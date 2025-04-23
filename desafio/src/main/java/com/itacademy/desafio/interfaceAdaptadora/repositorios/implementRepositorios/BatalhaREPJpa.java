@@ -2,21 +2,17 @@ package com.itacademy.desafio.interfaceAdaptadora.repositorios.implementReposito
 
 import com.itacademy.desafio.dominio.interfaceRepositorios.IBatalhaRepositorio;
 import com.itacademy.desafio.dominio.modelos.BatalhaModel;
-import com.itacademy.desafio.dominio.modelos.StartupModel;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Batalha;
-import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Startup;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.interfacesJpa.BatalhasRepositorio;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@AllArgsConstructor
 public class BatalhaREPJpa implements IBatalhaRepositorio {
     private final BatalhasRepositorio batalhasRepositorio;
-
-    public BatalhaREPJpa(BatalhasRepositorio batalhasRepositorio) {
-        this.batalhasRepositorio = batalhasRepositorio;
-    }
 
     public BatalhaModel add(BatalhaModel batalha){
        return Batalha.toBatalhaModel(this.batalhasRepositorio.save(Batalha.fromBatalhaModel(batalha)));

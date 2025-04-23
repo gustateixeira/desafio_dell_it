@@ -4,18 +4,15 @@ import com.itacademy.desafio.dominio.interfaceRepositorios.IAvaliacaoRepositorio
 import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.entidades.Avaliacao;
 import com.itacademy.desafio.interfaceAdaptadora.repositorios.interfacesJpa.AvaliacaoRepositorio;
-import org.springframework.data.jpa.repository.Query;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@AllArgsConstructor
 public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
     private final AvaliacaoRepositorio avaliacaoRepositorio;
-
-    public AvaliacaoREPJpa(AvaliacaoRepositorio av){
-        this.avaliacaoRepositorio = av;
-    }
 
     public AvaliacaoModel add(AvaliacaoModel av){
         avaliacaoRepositorio.save(Avaliacao.fromAvaliacaoModel(av));

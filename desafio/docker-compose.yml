@@ -1,0 +1,8 @@
+
+services:
+  webapp:
+    build: .
+    container_name: desafio_it_academy_2025
+    ports:
+      - "8080:8080"
+    restart: always

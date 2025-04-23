@@ -16,22 +16,6 @@ let vencedores = [];
 
 const formCriarStartup = document.getElementById("formCriarStartup");
 
-function escolherBatalha(idBatalha) {
-    fetch("/sorteio/escolherBatalha", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ id: idBatalha })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Erro ao escolher a batalha");
-    })
-    .catch(error => {
-        console.error("Erro ao enviar ID da batalha:", error);
-    });
-}
-
 function exibirStartups() {
     fetch("/listarStartups")
         .then(response => response.json())
