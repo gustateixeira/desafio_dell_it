@@ -1,9 +1,14 @@
 const btnCriarStartup = document.getElementById("btnCriarStartup");
 const btnSortear = document.getElementById("btnSortear");
+const btnAleatorio = document.getElementById("btnAleatorio");
+
+
 
 const paginaInicial = document.getElementById("paginaInicial");
 const paginaCriar = document.getElementById("paginaCriarStartup");
 const paginaSorteio = document.getElementById("paginaSorteio");
+const paginaAleatorio = document.getElementById("paginaAleatorio");
+
 let startupsCriadas = 0;
 
 
@@ -180,56 +185,46 @@ container.addEventListener('click', function(event) {
     }
 });
 
-function enviarBatalha(card) {
+async function enviarBatalha(card) {
     const batalhaid = card.dataset.batalhaid;
     console.log(`Batalha Id: ${batalhaid}`)
     const dados = pegarDadosBatalha(card);
 
 
-    fetch(`/sorteio/rodada/${batalhaid}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dados)
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => { throw new Error(text) });
+        try {
+            const response = await fetch(`/sorteio/rodada/${batalhaid}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados),
+            });
+
+            if (!response.ok) throw new Error("Erro ao enviar dados.");
+
+            const data = await response.json();
+            alert("Enviado!");
+            await getVencedor(batalhaid);
+            verificarSeBatalhasFinalizaram();
+        } catch (error) {
+            alert(error);
         }
-        return response.json();
-    })
-    .then(data => {
-       alert("Enviado!");
-       verificarSeBatalhasFinalizaram();
-       return getVencedor(batalhaid);
-    })
-    .catch(error => {
-        alert(error);
-    });
 }
 
-function getVencedor(id){
-    fetch(`/sorteio/rodada/ganhador/${id}`)
-    .then(response => {
-               if (!response.ok) {
-                   return response.text().then(text => { throw new Error(text) });
-               }
-      return response.json();
-    })
-    .then(data =>{
-        console.log('Ganhador:', data);
-        vencedores.push(data);
+async function getVencedor(id){
+     try {
+            const response = await fetch(`/sorteio/rodada/ganhador/${id}`);
+            if (!response.ok) throw new Error("Erro ao obter vencedor.");
+            const data = await response.json();
+            console.log('Ganhador:', data);
+            vencedores.push(data);
+        } catch (error) {
+            console.log(error);
+        }
 
-        return data;
-    })
-   .catch(error =>{
-        console.log(error)
-   });
 }
 
 function exibirVencedor(vencedor) {
-    const container = document.querySelector(".startup-card");
+    carregarAvaliacoesETabela();
+    const container = document.querySelector(".startup-card-vencedor");
     container.innerHTML = `
         <h2>Vencedor da Batalha</h2>
         <h2>${vencedor.nome}</h2>
@@ -238,7 +233,7 @@ function exibirVencedor(vencedor) {
         <p><strong>Pontuação:</strong> ${vencedor.pontuacao}</p>
     `;
     mostrarPagina(document.getElementById("paginaVencedor"));
-    carregarAvaliacoesETabela();
+
 }
 
 function sortearNovamente(listaDeVencedores) {
@@ -337,7 +332,6 @@ function sortearNovamente(listaDeVencedores) {
                container.appendChild(card);
            });
            mostrarPagina(paginaSorteio);
-           console.log("vencedores", vencedores);
 
 
            return batalhas;
@@ -348,13 +342,7 @@ function sortearNovamente(listaDeVencedores) {
 }
 
 
-document.getElementById("btnProximaRodada").addEventListener("click", () => {
-   if(vencedores.length === 1 ){
-                exibirVencedor(vencedores[0]);
-                return;
-  }
-  sortearNovamente(vencedores);
-});
+
 
 function verificarSeBatalhasFinalizaram() {
     fetch("/batalhas/finalizadas")
@@ -366,21 +354,18 @@ function verificarSeBatalhasFinalizaram() {
         })
         .then(finalizadas => {
             if (finalizadas) {
-                desbloquearBotaoProximaRodada();
+                console.log(Array.isArray(vencedores), vencedores);
+                 if (vencedores.length === 1) {
+                    console.log(vencedores);
+                    exibirVencedor(vencedores[0]);
+                 }else {
+                    sortearNovamente(vencedores);
+                 }
             }
         })
         .catch(error => {
             console.error(error);
         });
-}
-
-function desbloquearBotaoProximaRodada() {
-    const botao = document.getElementById("btnProximaRodada");
-    if (!botao) return;
-
-    botao.disabled = false;
-    botao.style.display = "block";
-
 }
 
 function getCheckboxValue(card, value) {
@@ -398,6 +383,8 @@ function mostrarPagina(pagina) {
     paginaCriar.style.display = "none";
     paginaSorteio.style.display = "none";
     paginaVencedor.style.display = "none";
+    paginaAleatorio.style.display = "none";
+
     pagina.style.display = "block";
 }
 
@@ -412,6 +399,37 @@ let batalhas = []
 btnSortear.addEventListener("click", () => {
    batalhas = sortear();
 });
+
+
+
+btnAleatorio.addEventListener("click", ()=>{
+    if(startupsCriadas !== 4 && startupsCriadas !==8){
+       alert(`Erro ao usar o modo aleatório, é necessário ter 4 ou 8 startups criadas. Atualmente o sistema possui ${startupsCriadas}.`);
+    }
+    fetch("/aleatorio").
+    then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao buscar startup aleatória');
+        }
+        return response.json();
+    })
+    .then(vencedor => {
+         const container = document.querySelector(".startup-card-aleatorio");
+                 container.innerHTML = `
+                     <h2>Vencedor da Batalha</h2>
+                     <h2>${vencedor.nome}</h2>
+                     <p><strong>Slogan:</strong> ${vencedor.slogan}</p>
+                     <p><strong>Fundação:</strong> ${vencedor.fundacao}</p>
+                     <p><strong>Pontuação:</strong> ${vencedor.pontuacao}</p>
+                 `;
+         mostrarPagina(paginaAleatorio);
+
+    })
+    .catch(error => {
+         console.error('Erro na requisição:', error);
+    });
+
+})
 
 formCriarStartup.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -447,28 +465,20 @@ formCriarStartup.addEventListener("submit", (e) => {
         });
     });
 
-    function desbloquearBotaoProximaRodada() {
-      const botao = document.getElementById("btnProximaRodada");
-      if (!botao) return;
-
-      botao.disabled = false;
-      botao.style.display = "block";
-   }
-
-
 function carregarAvaliacoesETabela() {
-    fetch("/avaliacoes")
+    fetch("/listarStartups")
         .then(response => {
             if (!response.ok) {
                 throw new Error("Erro ao buscar avaliações.");
             }
             return response.json();
         })
-        .then(avaliacoes => {
+        .then(startups => {
             const tabela = document.getElementById("tabelaAvaliacoes");
             tabela.innerHTML = `
                 <thead>
                     <tr>
+                        <th>Nome</th>
                         <th>Pitch</th>
                         <th>Bugs</th>
                         <th>Boa Tração de Usuários</th>
@@ -479,14 +489,15 @@ function carregarAvaliacoesETabela() {
                     </tr>
                 </thead>
                 <tbody>
-                    ${avaliacoes.map(av => `
+                    ${startups.map(st => `
                         <tr>
-                            <td>${av.pitch}</td>
-                            <td>${av.bugs}</td>
-                            <td>${av.usuarios}</td>
-                            <td>${av.investidorIrritado}</td>
-                            <td>${av.fakeNews}</td>
-                            <td>${av.pitch * 6 + av.bugs * (-4) + av.usuarios*3 + av.investidorIrritado*(-6) + av.fakeNews*(-8) + 70}</td>
+                            <td>${st.nome}</td>
+                            <td>${st.avaliacao.pitch}</td>
+                            <td>${st.avaliacao.bugs}</td>
+                            <td>${st.avaliacao.usuarios}</td>
+                            <td>${st.avaliacao.investidorIrritado}</td>
+                            <td>${st.avaliacao.fakeNews}</td>
+                            <td>${st.pontuacao}</td>
 
                         </tr>
                     `).join("")}

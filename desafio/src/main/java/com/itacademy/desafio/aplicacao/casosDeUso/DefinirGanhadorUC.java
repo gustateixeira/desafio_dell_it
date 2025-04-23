@@ -15,7 +15,6 @@ public class DefinirGanhadorUC {
     }
 
     public StartupDto run(long id){
-        System.out.println("Vencedor: "+ this.definirVencedorServico.definirVencedor(id));
         return StartupDto.fromModel(this.definirVencedorServico.definirVencedor(id).getVencedor());
     }
 }

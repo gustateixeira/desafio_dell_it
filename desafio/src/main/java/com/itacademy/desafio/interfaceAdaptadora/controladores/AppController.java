@@ -5,12 +5,15 @@ import com.itacademy.desafio.aplicacao.casosDeUso.*;
 import com.itacademy.desafio.aplicacao.dtos.AvaliacaoDto;
 import com.itacademy.desafio.aplicacao.dtos.BatalhaDto;
 import com.itacademy.desafio.aplicacao.dtos.StartupDto;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 public class AppController {
+    private final ModoAleatorioUC modoAleatorioUC;
     private final CriarStartupUC criarStartupUC;
     private final SortearBatalhasUC sortearBatalhasUC;
     private final SelecionarBatalhaUC selecionarBatalhaUC;
@@ -21,16 +24,7 @@ public class AppController {
     private final PegarAvaliacoesUC pegarAvaliacoesUC;
 
 
-    public AppController(CriarStartupUC criarStartupUC, SortearBatalhasUC sortearBatalhaUC, SelecionarBatalhaUC selecionarBatalhaUC, BatalharUC batalharUC, DefinirGanhadorUC definirGanhadorUC, MostarStartupsUC mostarStartupsUC, BatalhasFinalizadasUC batalhasFinalizadasUC, PegarAvaliacoesUC pegarAvaliacoesUC){
-        this.criarStartupUC = criarStartupUC;
-        this.sortearBatalhasUC = sortearBatalhaUC;
-        this.selecionarBatalhaUC = selecionarBatalhaUC;
-        this.batalharUC = batalharUC;
-        this.definirGanhadorUC = definirGanhadorUC;
-        this.mostarStartupsUC = mostarStartupsUC;
-        this.batalhasFinalizadasUC = batalhasFinalizadasUC;
-        this.pegarAvaliacoesUC = pegarAvaliacoesUC;
-    }
+
     @CrossOrigin(origins="*")
     @GetMapping("")
     public String home(){
@@ -87,5 +81,11 @@ public class AppController {
     @GetMapping("/avaliacoes")
     public List<AvaliacaoDto> avaliacoes(){
         return pegarAvaliacoesUC.run();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/aleatorio")
+    public StartupDto aleatorio(){
+        return this.modoAleatorioUC.run();
     }
 }

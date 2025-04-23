@@ -4,6 +4,7 @@ import com.itacademy.desafio.aplicacao.dtos.StartupDto;
 import com.itacademy.desafio.dominio.servicos.StartupServico;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -15,7 +16,9 @@ public class MostarStartupsUC {
     }
 
     public List<StartupDto> run(){
-        return this.startupServico.listar().stream().map(StartupDto::fromModel).toList();
+        List<StartupDto> startupDtos = new java.util.ArrayList<>(this.startupServico.listar().stream().map(StartupDto::fromModel).toList());
+        startupDtos.sort(Comparator.comparingInt(StartupDto::getPontuacao).reversed());
+        return startupDtos;
     }
 
 }

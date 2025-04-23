@@ -25,11 +25,21 @@ public class AvaliacaoREPJpa implements IAvaliacaoRepositorio {
     public AvaliacaoModel atualizarAvaliacao(long id,AvaliacaoModel av){
         Avaliacao avaliacao = this.avaliacaoRepositorio.findById(id);
         System.out.println("avaliacao nova: " + avaliacao);
-        avaliacao.setPitch(av.getPitch() + avaliacao.getPitch());
-        avaliacao.setBugs(av.getBugs() + avaliacao.getBugs());
-        avaliacao.setUsuarios(av.getUsuarios()+ avaliacao.getUsuarios());
-        avaliacao.setInvestidorIrritado(av.getInvestidorIrritado() + avaliacao.getInvestidorIrritado());
-        avaliacao.setFakeNews(av.getFakeNews()+ avaliacao.getFakeNews());
+        if(avaliacao.getPitch() < 1){
+            avaliacao.setPitch(av.getPitch() + avaliacao.getPitch());
+        }
+        if(avaliacao.getBugs() < 1){
+            avaliacao.setBugs(av.getBugs() + avaliacao.getBugs());
+        }
+        if(avaliacao.getUsuarios() < 1) {
+            avaliacao.setUsuarios(av.getUsuarios() + avaliacao.getUsuarios());
+        }
+        if(avaliacao.getInvestidorIrritado() < 1){
+            avaliacao.setInvestidorIrritado(av.getInvestidorIrritado() + avaliacao.getInvestidorIrritado());
+        }
+        if(avaliacao.getFakeNews() < 1) {
+            avaliacao.setFakeNews(av.getFakeNews() + avaliacao.getFakeNews());
+        }
         return Avaliacao.toAvaliacaoModel(this.avaliacaoRepositorio.save(avaliacao));
     }
 

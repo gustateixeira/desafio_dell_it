@@ -34,7 +34,7 @@ public class SortearBatalhasUC {
                                                 stream()
                                                 .map(st -> new StartupModel(st.getId()
                                                                         ,st.getNome()
-                                                                        ,this.avaliacaoServico.buscarPorId(st.getAvaliacaoId())
+                                                                        ,this.avaliacaoServico.buscarPorId(st.getAvaliacao().getId())
                                                                         ,st.getSlogan(),
                                                                         st.getFundacao(),
                                                                         st.getPontuacao())).toList();

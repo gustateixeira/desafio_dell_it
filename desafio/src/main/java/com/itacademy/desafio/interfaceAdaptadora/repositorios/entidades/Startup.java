@@ -17,7 +17,7 @@ public class Startup {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_avaliacao")
-    private Avaliacao av;
+    private @Setter Avaliacao av;
 
     private String slogan;
     private int fundacao;

@@ -1,6 +1,7 @@
 package com.itacademy.desafio.dominio.interfaceRepositorios;
 
 
+import com.itacademy.desafio.dominio.modelos.AvaliacaoModel;
 import com.itacademy.desafio.dominio.modelos.StartupModel;
 
 import java.util.List;
